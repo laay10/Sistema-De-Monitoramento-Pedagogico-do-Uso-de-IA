@@ -5,7 +5,7 @@
         private String localNascimento;
         private int idade;
 
-
+        // Construtor
     public Pessoa (String nome, String localNascimento, int idade) {
         this.nome = nome;
         this.localNascimento = localNascimento;

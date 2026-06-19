@@ -6,7 +6,7 @@ public class Aluno {
     private int ano;
     private boolean ehBolsista;
 
-
+    //Construtor: 
 public Aluno (Pessoa pessoa, String curso, String matricula, int semestre,int ano, boolean ehBolsista){
     this.pessoa = pessoa;
     this.curso = curso;
@@ -16,8 +16,7 @@ public Aluno (Pessoa pessoa, String curso, String matricula, int semestre,int an
     this.ehBolsista = ehBolsista;
 }
 
-    // get - tipo  - return - sem parametro
-    // set - void - this - com parametro 
+    // Getters:
 
     public Pessoa getPessoa() {
         return pessoa;
