@@ -1,3 +1,5 @@
+package entites;
+
 public class BolsistaIC {
     private Aluno aluno;
     private String projeto;

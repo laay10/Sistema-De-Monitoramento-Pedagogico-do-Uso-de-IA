@@ -1,3 +1,5 @@
+package entites;
+
 public class Aluno {
     private Pessoa pessoa;
     private String curso;

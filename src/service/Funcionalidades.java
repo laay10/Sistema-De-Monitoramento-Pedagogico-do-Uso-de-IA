@@ -115,7 +115,6 @@ public class Funcionalidades {
         }
     }
 
-
     //Registrar dados de acompanhamento do uso de IA
     public void registroAcompanhamento(){
         listarAlunos();
@@ -184,7 +183,38 @@ public class Funcionalidades {
     }
 
     //Mostrar o nome mais longo da turma
-    public void nomeMaisLongoTurma() {}
+    public void nomeMaisLongoTurma() {
+
+        //Tentei não tratar a excecção mas estava dando muito erro
+
+        // Garantir que a turma não está vazia para evitar erro de NullPointerException
+        if (alunos == null || alunos.length == 0) {
+            System.out.println("A turma não possui alunos.");
+            return;
+        }
+
+        //Vamos definir e supor que o primeiro nome é o maior
+        Aluno aluno = alunos[0];
+        String maiorNome = "";
+
+        //Percorremos o vetor:
+        for (int i = 0; i < alunos.length; i++) {
+            //Ignora a posição caso o aluno seja nulo
+            if (alunos[i] != null) {
+
+                //Verifica se a pessoa e o nome não são nulos:
+                if (alunos[i].getPessoa() != null && alunos[i].getPessoa().getNome() != null) {
+
+                    // Se for o primeiro nome válido encontrado ou se for maior que o atual
+                    if (maiorNome.equals("") || alunos[i].getPessoa().getNome().length() > maiorNome.length()) {
+                        maiorNome = alunos[i].getPessoa().getNome();
+                    }
+                }
+            }
+        }
+
+        System.out.println("O maior nome da é: " + maiorNome);
+    }
 
     //Contar quantidade de vogais de todos os nomes cadastrados
     public void contarVogais() {
