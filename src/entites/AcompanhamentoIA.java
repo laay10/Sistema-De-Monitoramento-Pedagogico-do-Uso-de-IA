@@ -1,3 +1,5 @@
+package entites;
+
 public class AcompanhamentoIA {
     private Aluno aluno;
     private int atividadesEntregues; //aE
@@ -6,7 +8,7 @@ public class AcompanhamentoIA {
     private int alteracaoSemAjuda; //aSA
     private int conteudosAvancados; //cA
     private String riscoPedagogico;
-    
+
     //Construtor:
     public AcompanhamentoIA (Aluno aluno, int aE, int aIA, int eC, int aSA, int cA, String riscoPedagogico) {
         this.aluno = aluno;
@@ -17,7 +19,7 @@ public class AcompanhamentoIA {
         this.conteudosAvancados = cA;
         this.riscoPedagogico = riscoPedagogico();
     }
-   
+
     // Getters:
     public Aluno getAluno () {
         return aluno;
@@ -66,27 +68,23 @@ public class AcompanhamentoIA {
     }
 
     public String riscoPedagogico() {
-        int indicios = 0;
-
+        // Se o aluno não usou IA, o risco de uso inadequado é baixo
         if (atividadesComIA == 0) {
-            indicios +=2;
+            return "Risco Baixo";
         }
 
-        if (explicacaoCorreta < atividadesComIA/2){
-            indicios += 3;
+        // Não consegue explicar a maior parte E usou conteúdos avançados
+        if (explicacaoCorreta < (double) atividadesComIA / 2 && conteudosAvancados > 0) {
+            return "Risco Alto";
         }
 
-        if (conteudosAvancados > 0){
-            indicios +=2;
+        // Apresenta dificuldade parcial (errou algumas explicações) OU usou conteudos avançados
+        if (explicacaoCorreta < atividadesComIA || conteudosAvancados > 0) {
+            return "Risco Moderado";
         }
-            
-        if (indicios <= 2){
-            return "Baixo";
-        } else if (indicios <= 5) {
-            return "Moderado";
-        } else {
-            return "Alto";
-        }
-            
+
+        // Se não caiu nos anteriores, significa que declara o uso, explica bem e domina o que fez
+        return "Risco Baixo";
     }
+
 }

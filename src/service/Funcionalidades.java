@@ -26,6 +26,9 @@ public class Funcionalidades {
     AcompanhamentoIA[] registros = new AcompanhamentoIA[10];
     int contadorAcompanhamento = 0;
 
+    AcompanhamentoIA[] riscoAlto = new AcompanhamentoIA[10];
+    int contadorRiscoAlto = 0;
+
     //Para adicionar alunos
     public void adicionarAluno(){
         //Informações para criar a Pessoa:
@@ -137,11 +140,36 @@ public class Funcionalidades {
         System.out.println("Digite a quantidade de conteudos avançados nos materiais entregues:");
         int conteudosAvancados = input.nextInt();
 
+        String riscoPedagogico = "";
+        AcompanhamentoIA acompanhamento = new AcompanhamentoIA(alunoRegistroIa, atividadesEntregues,
+                atividadesComIA, explicadasCorretamente, alteracaoSemAjuda, conteudosAvancados,riscoPedagogico);
 
+        riscoPedagogico = acompanhamento.riscoPedagogico();
+
+        if (registros.length > contadorAcompanhamento){
+            if ("Risco Alto".equals(riscoPedagogico)){
+                riscoAlto[contadorRiscoAlto] = acompanhamento;
+                contadorRiscoAlto++;
+            }
+            registros[contadorAcompanhamento] = acompanhamento;
+            contadorAcompanhamento++;
+
+            System.out.println("Registro de Acompanhamento do uso de IA realizado com sucesso");
+        } else {
+            System.out.println("Limite de registros atingidos");
+        }
+
+        exibirRegistros();
     }
 
-    //Listar todos os alunos cadastrados na turma
-    public void cadastradosTurma (){}
+    public void exibirRegistros() {
+        System.out.println("Registros Cadastrados:");
+
+        for(int i = 0; i < contadorAcompanhamento; i++){
+            System.out.println("Nome do Aluno: " + registros[i].getAluno().getPessoa().getNome());
+            System.out.println("Risco pedagogico: " + registros[i].riscoPedagogico());
+        }
+    }
 
     //Listar apenas alunos de Bolsista de IC: Método para listar Bolsistas:
     public void listarBolsistas(){
@@ -202,7 +230,14 @@ public class Funcionalidades {
     public void calculoDeRiscoPedagogico(){}
 
     //Exibir apenas alunos classificados como alto risco
-    public void alunosRiscoAlto(){}
+    public void alunosRiscoAlto(){
+        System.out.println("Classificação de RISCO ALTA:");
+
+        for(int i = 0; i < contadorRiscoAlto; i++){
+            System.out.println("Nome do Aluno: " + riscoAlto[i].getAluno().getPessoa().getNome());
+            System.out.println("Risco pedagogico: " + riscoAlto[i].riscoPedagogico());
+        }
+    }
 
     //Inovation
 
