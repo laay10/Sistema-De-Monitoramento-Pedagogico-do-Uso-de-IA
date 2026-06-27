@@ -55,7 +55,9 @@ public class Funcionalidades {
         System.out.println("Digite seu ano:");
         int ano = input.nextInt();
         System.out.println("É bolsista? (S/N)");
-        boolean ehBolsista = input.nextBoolean();
+        char escolha = input.next().charAt(0);
+
+        boolean ehBolsista = verificaBolsista(escolha);
 
 
         Aluno aluno = new Aluno(pessoa, curso, matricula, semestre, ano, ehBolsista);
@@ -265,6 +267,16 @@ public class Funcionalidades {
 
     //Inovation
 
+    // Converter char pra boolean
+    public boolean verificaBolsista(char escolha){
+        boolean ehBolsista;
+        if (escolha == 's' || escolha == 'S') {
+            ehBolsista = true;
+        } else {
+            ehBolsista = false;
+        }
+        return ehBolsista;
+    }
     //Método para exibir os tracinhos:
     public void espaco(){
         System.out.println("---------------------------------------------");
