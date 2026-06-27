@@ -46,8 +46,10 @@ public class Funcionalidades {
         Pessoa pessoa = new Pessoa(nome, localNascimento, idade);
 
         //Informações para criar o Aluno:
-        System.out.println("Digite seu curso:");
-        String curso = input.nextLine();
+        exibirCursos();
+        System.out.println("Digite o indíce do curso escolhido:");
+        int decisao = input.nextInt();
+        String curso = cursoEscolhido(decisao);
         System.out.println("Digite sua matrícula:");
         String matricula = input.nextLine();
         System.out.println("Digite seu semestre:");
@@ -230,7 +232,41 @@ public class Funcionalidades {
     }
 
     //Calcular o percentual de alunos por curso
-    public void percentualAlunosPorCurso(){}
+    public void percentualAlunosPorCurso(){
+        int ec = 0;
+        int es = 0;
+        int ads = 0;
+        int cc = 0;
+        int cdia = 0;
+        int si = 0;
+
+        for (int i = 0; i < alunos.length; i++){
+            if (alunos[i] != null){
+                if(alunos[i].getCurso().equals("Engenharia da Computação")){
+                    ec++;
+                } else if (alunos[i].getCurso().equals("Engenharia de Software")) {
+                    es++;
+                } else if(alunos[i].getCurso().equals("Análise e Desenvolvimento de Sistemas")) {
+                    ads++;
+                } else if (alunos[i].getCurso().equals("Ciências da Computação")) {
+                    cc++;
+                } else if (alunos[i].getCurso().equals("Ciências de Dados e Inteligência Artificial")){
+                    cdia++;
+                } else if (alunos[i].getCurso().equals("Sistemas de Informações")) {
+                    si++;
+                } 
+            }
+        }
+
+        int total = ec + es + ads + cc + cdia + si;
+
+        System.out.println("Engenharia da Computação: " + (ec * 100.0/ total) + "%");
+        System.out.println("Engenharia de Software: " + (es * 100.0/ total) + "%");
+        System.out.println("Análise e Desenvolvimento de Sistemas: " + (ads * 100.0/ total) + "%");
+        System.out.println("Ciências da Computação: " + (cc * 100.0/ total) + "% \t");
+        System.out.println("Ciências de Dados e Inteligência Artificial: " + (cdia * 100.0/ total) + "%");
+        System.out.println("Sistemas de Informações: " + (si * 100.0/ total) + "%");
+    }
 
     //Calcular a média de idade de alunos cadastrados:
     public void mediaIdadeAlunos(){
@@ -276,6 +312,41 @@ public class Funcionalidades {
             ehBolsista = false;
         }
         return ehBolsista;
+    }
+
+    //Exibir cursos disponiveis:
+    public void exibirCursos(){
+        String cursos = """
+        Cursos Disponiveis:
+        1 - Engenharia da Computação
+        2 - Engenharia de Software
+        3 - Análise e Desenvolvimento de Sistemas
+        4 - Ciências da Computação
+        5 - Ciências de Dados e Inteligência Artificial
+        6 - Sistemas de Informações
+        """;
+        System.out.println(cursos);
+    }
+
+    //Método para desingar o curso de cada aluno:
+    public String cursoEscolhido(int escolha){
+        String curso = "";
+        if (escolha == 1) {
+            curso = "Engenharia da Computação";
+        } else if (escolha == 2){
+            curso = "Engenharia de Software";
+        } else if (escolha == 3) {
+            curso = "Analise e Desenvolvimento de Sistemas";
+        } else if ( escolha == 4 ) {
+            curso = "Ciências da Computação";
+        } else if (escolha == 5 ) {
+            curso = "Ciências de Dados e Inteligência Artificial";
+        } else if (escolha == 6) {
+            curso = "Sistemas de Informações";
+        } else {
+            curso = "Indisponível";
+        }
+        return curso;
     }
     //Método para exibir os tracinhos:
     public void espaco(){

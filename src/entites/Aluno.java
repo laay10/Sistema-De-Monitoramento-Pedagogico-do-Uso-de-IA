@@ -19,7 +19,7 @@ public Aluno (Pessoa pessoa, String curso, String matricula, int semestre,int an
 }
 
     // Getters:
-
+    
     public Pessoa getPessoa() {
         return pessoa;
     }
