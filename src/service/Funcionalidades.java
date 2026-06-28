@@ -117,6 +117,41 @@ public class Funcionalidades {
         input.nextLine();
     }
 
+    public void cadastrarDadosIniciais(){
+        Pessoa p1 = new Pessoa("Laís", "Porto Alegre", 18);
+        Aluno a1 = new Aluno(p1, "Engenharia de Software", "1001", 3, 2026, false);
+        alunos[contadorAluno] = a1;
+        contadorAluno++;
+
+        Pessoa p2 = new Pessoa("Hugo", "Cabo Verde", 19);
+        Aluno a2 = new Aluno(p2, "Engenharia de Software", "2341", 3, 2026, false);
+        alunos[contadorAluno] = a2;
+        contadorAluno++;
+
+        Pessoa p3 = new Pessoa("Otávio", "Porto Alegre", 20);
+        Aluno a3 =  new Aluno(p3, "Ciências da Computação", "3561", 7, 2026, false);
+        alunos[contadorAluno] = a3;
+        contadorAluno++;
+
+        Pessoa p4 = new Pessoa("Luara", "Santa Maria", 24);
+        Aluno a4 = new Aluno(p4, "Sistemas de Informação", "2578", 8, 2026, true);
+        alunos[contadorAluno] = a4;
+        contadorAluno++;
+
+        Pessoa p5 = new Pessoa("Luara", "Santa Maria", 24);
+        Aluno a5 = new Aluno(p5, "Ciências de Dados e Inteligência Artificial", "9248", 5, 2026, true);
+        alunos[contadorAluno] = a5;
+        contadorAluno++;
+
+        // Os dois bolsistas obrigatórios:
+        bolsista[contadorBolsista] = new BolsistaIC(a4, "Uso de IA no Desenvolvimento de Projetos", "Daniela do Amaral");
+        contadorBolsista++;
+
+        bolsista[contadorBolsista] = new BolsistaIC(a5, "Simulação de Humanos Virtuais", "Gabriel Fonseca");
+        contadorBolsista++;
+
+    }
+
     //Método para listar alunos:
     public void listarAlunos(){
         System.out.println("Alunos Cadastrados:");
@@ -132,7 +167,6 @@ public class Funcionalidades {
 
         System.out.println("Digite o indice do aluno que deseja registrar o acompanhamento:");
         int indice = input.nextInt();
-        percentualAlunosPorCurso();
         Aluno alunoRegistroIa = alunos[indice];
 
         System.out.println("Digite a quantidade de atividades entregues:");
@@ -475,4 +509,105 @@ public class Funcionalidades {
         System.out.println("---------------------------------------------");
     }
 
+// INOVAÇÃO DO GRUPO: Relatório de Melhorias + Duplas pra estudo:
+public void planoDeDesenvolvimento() {
+
+    if (contadorAcompanhamento == 0) {
+        System.out.println("Nenhum acompanhamento cadastrado!");
+        return;
+    }
+
+    System.out.println("Plano de Desenvolvimento:");
+    espaco();
+
+    for (int i = 0; i < contadorAluno; i++) {
+        System.out.println((i + 1) + " - " + alunos[i].getPessoa().getNome());
+    }
+
+    System.out.print("Escolha um aluno: ");
+    int opcao = input.nextInt() - 1;
+
+    if (opcao < 0 || opcao >= contadorAluno) {
+        System.out.println("Aluno inválido!");
+        return;
+    }
+
+    AcompanhamentoIA acompanhamento = null;
+
+    for (int i = 0; i < contadorAcompanhamento; i++) {
+
+        if (registros[i].getAluno().getMatricula() ==
+                alunos[opcao].getMatricula()) {
+
+            acompanhamento = registros[i];
+            break;
+        }
+    }
+
+    if (acompanhamento == null) {
+        System.out.println("Este aluno não possui acompanhamento cadastrado.");
+        return;
+    }
+
+    String risco = acompanhamento.riscoPedagogico();
+
+    System.out.println("\nAluno: " + alunos[opcao].getPessoa().getNome());
+    System.out.println("Curso: " + alunos[opcao].getCurso());
+    System.out.println("Risco: " + risco);
+
+    mostrarPlano(risco);
+    espaco();
+
+    if (risco.equalsIgnoreCase("Risco Alto")) {
+        sugerirDupla(alunos[opcao]);
+    }
+
+}
+//Para exibir o plano com Melhorias:
+public void mostrarPlano(String risco){
+
+    System.out.println("\nPlano de ação:");
+
+    if(risco.equalsIgnoreCase("Risco Baixo")){
+
+        System.out.println("- Continue mantendo sua rotina de estudos.");
+        System.out.println("- Utilize a IA apenas como apoio.");
+        System.out.println("- Continue revisando os conteúdos.");
+
+    }else if(risco.equalsIgnoreCase("Risco Médio")){
+
+        System.out.println("- Faça revisões semanais.");
+        System.out.println("- Resolva exercícios antes de consultar a IA.");
+        System.out.println("- Organize um cronograma de estudos.");
+
+    }else{
+
+        System.out.println("- Estabeleça uma rotina diária de estudos.");
+        System.out.println("- Utilize menos a IA para respostas prontas.");
+        System.out.println("- Procure ajuda de colegas e professores.");
+        System.out.println("- Refaça atividades sem auxílio da IA.");
+
+    }
+
+}
+
+//Para encontrar dupla: 
+public void sugerirDupla(Aluno aluno){
+
+    for(int i = 0; i < contadorAcompanhamento; i++){
+
+        if(registros[i].riscoPedagogico().equalsIgnoreCase("Risco Baixo")
+                && registros[i].getAluno().getMatricula() != aluno.getMatricula()
+                && registros[i].getAluno().getCurso().equals(aluno.getCurso())){
+
+            System.out.println("Dupla Sugerida:");
+            System.out.println("Aluno: " + registros[i].getAluno().getPessoa().getNome());
+            System.out.println("Curso: " + registros[i].getAluno().getCurso());
+
+            return;
+        }
+    }
+
+    System.out.println("\nNenhum aluno do mesmo curso com risco baixo foi encontrado.");
+}
 }
