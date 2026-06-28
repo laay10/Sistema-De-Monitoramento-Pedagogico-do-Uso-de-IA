@@ -3,6 +3,7 @@ package service;
 import entites.AcompanhamentoIA;
 import entites.Aluno;
 import entites.BolsistaIC;
+import entites.ListaChamada;
 import entites.Pessoa;
 
 import java.util.Scanner;
@@ -29,6 +30,9 @@ public class Funcionalidades {
     AcompanhamentoIA[] riscoAlto = new AcompanhamentoIA[10];
     int contadorRiscoAlto = 0;
 
+    ListaChamada[] listas = new ListaChamada[10];
+    int contadorListas = 0;
+
     //Para adicionar alunos
     public void adicionarAluno(){
         //Informações para criar a Pessoa:
@@ -50,6 +54,9 @@ public class Funcionalidades {
         System.out.println("Digite o indíce do curso escolhido:");
         int decisao = input.nextInt();
         String curso = cursoEscolhido(decisao);
+
+        input.nextLine();
+
         System.out.println("Digite sua matrícula:");
         String matricula = input.nextLine();
         System.out.println("Digite seu semestre:");
@@ -283,11 +290,97 @@ public class Funcionalidades {
     }
 
     //Criar-Atualizar a lista de chamada da dispciplina
-    public void listaDeChamada(){}
+    public void listaDeChamada(){
+        System.out.println("Digite o nome do Professor:");
+        String professor = input.nextLine();
+
+        System.out.println("Digite o nome da disciplina:");
+        String disciplina = input.nextLine();
+
+        System.out.println("Quantidade de alunos da turma:");
+        int quantidade = input.nextInt();
+
+        //Se a quantidade for maior que os alunos cadastrados ou menor/igual a zero:
+        while (quantidade > alunos.length || quantidade <= 0) {
+            System.out.println("Quantidade inválida. Digite novamente:");
+            quantidade = input.nextInt();
+        }
+
+        Aluno[] turma = new Aluno[quantidade];
+
+        listarAlunos();
+
+        for (int i = 0; i < quantidade; i++){
+            System.out.println("Escolha o índice do aluno:");
+            int opcao = input.nextInt();
+
+            while (opcao < 0 ||opcao > alunos.length) {
+                System.out.println("Aluno inválido. Escolha novamente:");
+                opcao = input.nextInt();
+            }
+
+            turma[i] = alunos[opcao];
+        }
+
+        ListaChamada lista = new ListaChamada(professor, disciplina, turma);
+
+        if (listas.length > contadorListas) {
+                listas[contadorListas] = lista;
+            contadorListas++;
+        } else {
+            System.out.println("Limite de turmas atingido!");
+        }
+    }
 
     //Exibir a lista de chamada em ordem alfabetica crescente, contendo nome, matricula e curso
-    public void exibirListaDeChamada() {}
+    public void exibirListaDeChamada() {
 
+        if(contadorListas == 0) {
+            System.out.println("Nenhuma lista encontrada!");
+            return;
+        }
+
+        System.out.println("Listas disponiveis:");
+
+        for (int i = 0; i < contadorListas; i++){
+            System.out.println( i + " - " + listas[i].getProfessor() + " | " + listas[i].getDisciplina());
+        }
+
+        System.out.println("Escolha a lista:");
+        int opcao = input.nextInt();
+
+        while (opcao < 0 || opcao > contadorListas) {
+            System.out.println("Lista inválida. Escolha novamente:");
+            opcao = input.nextInt();
+        }
+
+        System.out.println("Professor: " + listas[opcao].getProfessor());
+        System.out.println("disciplina: " + listas[opcao].getDisciplina());
+
+        Aluno[] turma = listas[opcao].getAlunos();
+
+        ordenarListaChamada(turma);
+        
+        for (int i = 0; i < turma.length; i++){
+            System.out.println(i + " - " + turma[i].getMatricula() + " - " + turma[i].getPessoa().getNome() + " - " + 
+            turma[i].getCurso());
+        }
+    }
+
+    //Método para organizar a lista de chamada usando Bubble Sort:
+    public void ordenarListaChamada(Aluno[] turma){
+        for (int i = 0; i < turma.length - 1; i++) {
+        for (int j = 0; j < turma.length - 1 - i; j++) {
+
+            if (turma[j].getPessoa().getNome().compareToIgnoreCase(turma[j + 1].getPessoa().getNome()) > 0) {
+
+                Aluno aux = turma[j];
+                turma[j] = turma[j + 1];
+                turma[j + 1] = aux;
+            }
+        }
+    }
+    }
     //Calcular o nível de risco pedagogico relacionado ao uso de IA - Feito na classe AcompanhamentoIA
     public void calculoDeRiscoPedagogico(){}
 
@@ -354,3 +447,4 @@ public class Funcionalidades {
     }
 
 }
+// Linha não encontrada
