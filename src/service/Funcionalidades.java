@@ -301,7 +301,7 @@ public class Funcionalidades {
         int quantidade = input.nextInt();
 
         //Se a quantidade for maior que os alunos cadastrados ou menor/igual a zero:
-        while (quantidade > alunos.length || quantidade <= 0) {
+        while (quantidade > contadorAluno || quantidade <= 0) {
             System.out.println("Quantidade inválida. Digite novamente:");
             quantidade = input.nextInt();
         }
@@ -314,7 +314,7 @@ public class Funcionalidades {
             System.out.println("Escolha o índice do aluno:");
             int opcao = input.nextInt();
 
-            while (opcao < 0 ||opcao > alunos.length) {
+            while (opcao < 0 ||opcao > contadorAluno) {
                 System.out.println("Aluno inválido. Escolha novamente:");
                 opcao = input.nextInt();
             }
@@ -381,8 +381,36 @@ public class Funcionalidades {
         }
     }
     }
-    //Calcular o nível de risco pedagogico relacionado ao uso de IA - Feito na classe AcompanhamentoIA
-    public void calculoDeRiscoPedagogico(){}
+    
+    // Calcular o percentual de risco pedagogico 
+    public void calculoDeRiscoPedagogico(){
+        if (contadorAcompanhamento == 0) {
+            System.out.println("Nenhuma acompanhamento cadastrado");
+            return;
+        }
+
+        int baixo = 0;
+        int medio = 0;
+        int alto = 0;
+
+        for(int i = 0; i < contadorAcompanhamento; i++) {
+            String risco = registros[i].riscoPedagogico();
+
+            if (risco.equals("Risco Baixo")) {
+                baixo++;
+            } else if (risco.equals("Risco Médio")){
+                medio++;
+            } else if (risco.equals("Risco Alto")) {
+                alto++;
+            }
+        }
+
+        System.out.println("Relatório de Risco pedagogico");
+
+        System.out.println("Risco Baixo: " + baixo + " (" + (baixo * 100.0 / contadorAcompanhamento) + "%)");
+        System.out.println("Risco Médio: " + medio + " (" + (medio * 100.0 / contadorAcompanhamento) + "%)");
+        System.out.println("Risco Alto: " + alto + " (" + (alto * 100.0 / contadorAcompanhamento) + "%)");
+    }
 
     //Exibir apenas alunos classificados como alto risco
     public void alunosRiscoAlto(){
@@ -401,6 +429,7 @@ public class Funcionalidades {
         boolean ehBolsista;
         if (escolha == 's' || escolha == 'S') {
             ehBolsista = true;
+// Linha não encontrada
         } else {
             ehBolsista = false;
         }
@@ -447,4 +476,3 @@ public class Funcionalidades {
     }
 
 }
-// Linha não encontrada
