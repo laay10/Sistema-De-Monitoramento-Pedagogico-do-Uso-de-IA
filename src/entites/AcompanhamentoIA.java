@@ -80,7 +80,7 @@ public class AcompanhamentoIA {
 
         // Apresenta dificuldade parcial (errou algumas explicações) OU usou conteudos avançados
         if (explicacaoCorreta < atividadesComIA || conteudosAvancados > 0) {
-            return "Risco Moderado";
+            return "Risco Médio";
         }
 
         // Se não caiu nos anteriores, significa que declara o uso, explica bem e domina o que fez

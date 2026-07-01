@@ -57,8 +57,17 @@ public class Funcionalidades {
 
         input.nextLine();
 
+        String matricula;
+
+    do {
         System.out.println("Digite sua matrícula:");
-        String matricula = input.nextLine();
+        matricula = input.nextLine();
+
+        if (matriculaExiste(matricula)) {
+            System.out.println("Essa matrícula já está cadastrada. Digite outra.");
+        }
+
+    } while (matriculaExiste(matricula));
         System.out.println("Digite seu semestre:");
         int semestre = input.nextInt();
         System.out.println("Digite seu ano:");
@@ -91,7 +100,20 @@ public class Funcionalidades {
 
         System.out.println("Digite o indíce do aluno que deseja cadastrar:");
         int indice = input.nextInt();
+
+        //Para evitar a escolha de um indice que não existe
+
+        while (indice < 0 || indice >= contadorAluno) {
+            System.out.println("Índice inválido. Digite novamente:");
+        indice = input.nextInt();
+        }
+
         Aluno alunoIC = alunos[indice];
+
+        if (bolsistaExiste(alunoIC)) {
+            System.out.println("Este aluno já está cadastrado como bolsista.");
+            return;
+        }
 
         //Limpando o Buffer:
         input.nextLine();
@@ -117,6 +139,26 @@ public class Funcionalidades {
         input.nextLine();
     }
 
+    public boolean bolsistaExiste(Aluno aluno) {
+        for (int i = 0; i < contadorBolsista; i++) {
+            if (bolsista[i] != null &&
+                bolsista[i].getAluno().getMatricula().equals(aluno.getMatricula())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean matriculaExiste(String matricula) {
+    for (int i = 0; i < contadorAluno; i++) {
+        if (alunos[i] != null &&
+            alunos[i].getMatricula().equalsIgnoreCase(matricula)) {
+            return true;
+        }
+    }
+    return false;
+    }
+
     public void cadastrarDadosIniciais(){
         Pessoa p1 = new Pessoa("Laís", "Porto Alegre", 18);
         Aluno a1 = new Aluno(p1, "Engenharia de Software", "1001", 3, 2026, false);
@@ -138,8 +180,8 @@ public class Funcionalidades {
         alunos[contadorAluno] = a4;
         contadorAluno++;
 
-        Pessoa p5 = new Pessoa("Luara", "Santa Maria", 24);
-        Aluno a5 = new Aluno(p5, "Ciências de Dados e Inteligência Artificial", "9248", 5, 2026, true);
+        Pessoa p5 = new Pessoa("Julia", "Santa Maria", 53);
+        Aluno a5 = new Aluno(p5, "Sistemas Informação", "8468", 5, 2026, true);
         alunos[contadorAluno] = a5;
         contadorAluno++;
 
@@ -150,6 +192,16 @@ public class Funcionalidades {
         bolsista[contadorBolsista] = new BolsistaIC(a5, "Simulação de Humanos Virtuais", "Gabriel Fonseca");
         contadorBolsista++;
 
+        registros[contadorAcompanhamento] = new AcompanhamentoIA(a1, 10, 5, 10, 10, 5, "");
+        contadorAcompanhamento++;
+        registros[contadorAcompanhamento] = new AcompanhamentoIA(a2, 10, 10, 0, 2, 10, "");
+        contadorAcompanhamento++;
+        registros[contadorAcompanhamento] = new AcompanhamentoIA(a3, 10, 0, 10, 10, 1, "");
+        contadorAcompanhamento++;
+        registros[contadorAcompanhamento] = new AcompanhamentoIA(a4, 10, 5, 10, 3, 2, "");
+        contadorAcompanhamento++;
+        registros[contadorAcompanhamento] = new AcompanhamentoIA(a5, 10, 10, 0, 1, 10, "");
+        contadorAcompanhamento++;
     }
 
     //Método para listar alunos:
@@ -167,6 +219,13 @@ public class Funcionalidades {
 
         System.out.println("Digite o indice do aluno que deseja registrar o acompanhamento:");
         int indice = input.nextInt();
+        
+        //Para não quebrar o código:
+        while (indice < 0 || indice >= contadorAluno) {
+            System.out.println("Índice inválido. Digite novamente:");
+            indice = input.nextInt();
+        }
+
         Aluno alunoRegistroIa = alunos[indice];
 
         System.out.println("Digite a quantidade de atividades entregues:");
@@ -348,7 +407,7 @@ public class Funcionalidades {
             System.out.println("Escolha o índice do aluno:");
             int opcao = input.nextInt();
 
-            while (opcao < 0 ||opcao > contadorAluno) {
+            while (opcao < 0 || opcao >= contadorAluno) {
                 System.out.println("Aluno inválido. Escolha novamente:");
                 opcao = input.nextInt();
             }
@@ -383,7 +442,7 @@ public class Funcionalidades {
         System.out.println("Escolha a lista:");
         int opcao = input.nextInt();
 
-        while (opcao < 0 || opcao > contadorListas) {
+        while (opcao < 0 || opcao >= contadorListas) {
             System.out.println("Lista inválida. Escolha novamente:");
             opcao = input.nextInt();
         }
@@ -448,7 +507,14 @@ public class Funcionalidades {
 
     //Exibir apenas alunos classificados como alto risco
     public void alunosRiscoAlto(){
+
+        if (contadorRiscoAlto == 0) {
+            System.out.println("Nenhum aluno classificado como risco alto.");
+            return;
+        }
+
         System.out.println("Classificação de RISCO ALTA:");
+        
 
         for(int i = 0; i < contadorRiscoAlto; i++){
             System.out.println("Nome do Aluno: " + riscoAlto[i].getAluno().getPessoa().getNome());
@@ -536,8 +602,7 @@ public void planoDeDesenvolvimento() {
 
     for (int i = 0; i < contadorAcompanhamento; i++) {
 
-        if (registros[i].getAluno().getMatricula() ==
-                alunos[opcao].getMatricula()) {
+        if (registros[i].getAluno().getMatricula().equals(alunos[opcao].getMatricula())) {
 
             acompanhamento = registros[i];
             break;
@@ -597,8 +662,7 @@ public void sugerirDupla(Aluno aluno){
     for(int i = 0; i < contadorAcompanhamento; i++){
 
         if(registros[i].riscoPedagogico().equalsIgnoreCase("Risco Baixo")
-                && registros[i].getAluno().getMatricula() != aluno.getMatricula()
-                && registros[i].getAluno().getCurso().equals(aluno.getCurso())){
+                && !registros[i].getAluno().getMatricula().equals(aluno.getMatricula())){
 
             System.out.println("Dupla Sugerida:");
             System.out.println("Aluno: " + registros[i].getAluno().getPessoa().getNome());
